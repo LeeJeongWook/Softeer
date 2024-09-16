@@ -7,26 +7,21 @@ char T[500000];
 int idx = 0;
 
 void solution(){
-    for(int i = 0; i < (int)strlen(S); i++){
-        if(S[i] == '('){
-            if(S[i + 1] == '('){
-                T[idx++] = '(';
-                continue;
-            }
-            else if(i != 0 && S[i - 1] == ')'){
-                T[idx++] = '+';
-                T[idx++] = '(';
-                T[idx++] = '1';
-            }
-            else{
-                T[idx++] = '(';
-                T[idx++] = '1';
-            }
-        }
-        else if(S[i] == ')'){
+    int len = strlen(S);
+    T[idx++] = S[0];
+    for(int i = 1; i < len; i++){
+        if(S[i-1] == '(' && S[i] == ')'){
+            T[idx++] = '1';
             T[idx++] = ')';
         }
+        else if(S[i-1] == ')' && S[i] == '('){
+            T[idx++] = '+';
+            T[idx++] = '(';
+        }
+        else
+            T[idx++] = S[i];
     }
+    
     printf("%s", T);
 }
 
