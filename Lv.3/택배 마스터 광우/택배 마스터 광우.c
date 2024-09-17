@@ -21,8 +21,7 @@ void Permute(int *arr, int l, int r){
 
         while(1){
             if(count == K){
-                index = 0;
-                break;
+                index = 0;                break;
             }
 
             if(weight + arr[index] <= M){
