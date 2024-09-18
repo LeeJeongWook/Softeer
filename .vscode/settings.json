@@ -8,6 +8,7 @@
         "xmemory": "c",
         "xtr1common": "c",
         "xutility": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "xiosbase": "cpp"
     }
 }
