@@ -9,6 +9,7 @@
         "xtr1common": "c",
         "xutility": "c",
         "stdio.h": "c",
-        "xiosbase": "cpp"
+        "xiosbase": "cpp",
+        "string.h": "c"
     }
 }
