@@ -1,33 +1,30 @@
-#define _CRT_SECURE_NO_WARNINGS_
 #include <stdio.h>
 #include <string.h>
 
-char S[200000];
-char T[500000];
-int idx = 0;
+int main(void){
+    int len, idx = 0;
+    char s[200000];
+    char ans[500000];
 
-void solution(){
-    int len = strlen(S);
-    T[idx++] = S[0];
+    scanf("%s", s);
+
+    len = strlen(s);
+    ans[idx++] = s[0];
     for(int i = 1; i < len; i++){
-        if(S[i-1] == '(' && S[i] == ')'){
-            T[idx++] = '1';
-            T[idx++] = ')';
+        if(s[i-1] == '(' && s[i] == ')'){
+            ans[idx++] = '1';
+            ans[idx++] = ')';
         }
-        else if(S[i-1] == ')' && S[i] == '('){
-            T[idx++] = '+';
-            T[idx++] = '(';
+        else if(s[i-1] == ')' && s[i] == '('){
+            ans[idx++] = '+';
+            ans[idx++] = '(';
         }
-        else
-            T[idx++] = S[i];
+        else{
+            ans[idx++] = s[i];
+        }
     }
-    
-    printf("%s", T);
-}
 
-int main(){
-    scanf("%s", S);
-    solution();
- 
+    printf("%s", ans);
+    
     return 0;
 }
