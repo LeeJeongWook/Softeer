@@ -1,21 +1,17 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 
-#define MOD 1000000007
-
-int main(){
+int main(void){
     int K, P, N;
-    long long virus;
+    long long virus = 0;
 
     scanf("%d %d %d", &K, &P, &N);
 
     virus = K;
 
-    for(int i = 0; i < N; i++){
-        virus = (virus * P) % MOD;
-    }
+    for(int i = 0; i < N; i++)
+        virus = (virus * P) % 1000000007;
 
     printf("%lld", virus);
-
+    
     return 0;
 }
