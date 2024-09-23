@@ -1,29 +1,22 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 
 void Transmission(int *gear){
     int idx, type_rst = 0;
-
     int ascending = 1, descending = 1;
 
     for (int i = 0; i < 7; i++) {
-        if (gear[i] < gear[i+1]) {
+        if (gear[i] < gear[i+1])
             descending = 0;
-        }
-        else if (gear[i] > gear[i+1]) {
+        else if (gear[i] > gear[i+1])
             ascending = 0;
-        }
     }
 
-    if (ascending) {
+    if (ascending)
         printf("ascending");
-    }
-    else if (descending) {
+    else if (descending)
         printf("descending");
-    }
-    else {
+    else
         printf("mixed");
-    }
 }
 
 int main(){
