@@ -1,52 +1,47 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MAX 1000000
+typedef struct _Stone{
+    int weight;
+    int price;
+}stone;
 
-int W, N, weight = 0, cost = 0;
+int compare(const void *a, const void *b){
+    stone* int_a = (const stone*)a;
+    stone* int_b = (const stone*)b;
 
-struct data
-{
-    int M;
-    int P;
-};
-
-struct data jewelry[MAX];
-
-int compare(const void* a, const void* b){
-    struct data* dataA = (struct data*)a;
-    struct data* dataB = (struct data*)b;
-    
-    if(dataA->P < dataB->P)
+    if(int_a->price < int_b->price)
         return 1;
-    else if(dataA->P > dataB->P)
+    else if(int_a->price > int_b->price)
         return -1;
     else
         return 0;
 }
 
-int main(){
+int main(void){
+    int N, W, cost = 0;
+    stone stone_arr[1000000];
+
     scanf("%d %d", &W, &N);
 
     for(int i = 0; i < N; i++){
-        scanf("%d %d", &jewelry[i].M, &jewelry[i].P);
+        scanf("%d %d", &stone_arr[i].weight, &stone_arr[i].price);
     }
-
-    qsort(jewelry, N, sizeof(struct data), compare);
+    
+    qsort(stone_arr, N, sizeof(stone), compare);
 
     for(int i = 0; i < N; i++){
-        if(W >= jewelry[i].M){
-            W -= jewelry[i].M;
-            cost += jewelry[i].M * jewelry[i].P;
+        if(W - stone_arr[i].weight >= 0){
+            W -= stone_arr[i].weight;
+            cost += stone_arr[i].weight * stone_arr[i].price;
         }
         else{
-            cost += W * jewelry[i].P;
+            cost += W * stone_arr[i].price;
             break;
         }
     }
 
     printf("%d", cost);
-
+    
     return 0;
 }
