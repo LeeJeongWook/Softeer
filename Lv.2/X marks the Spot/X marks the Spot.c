@@ -20,8 +20,8 @@ int main(void) {
         scanf("%s %s", tempS, tempT);
 
         len = strlen(tempS);
-        S[i] = malloc((len + 1) * sizeof(char));
-        T[i] = malloc((len + 1) * sizeof(char));
+        S[i] = malloc((len) * sizeof(char));
+        T[i] = malloc((len) * sizeof(char));
 
         strcpy(S[i], tempS);
         strcpy(T[i], tempT);
