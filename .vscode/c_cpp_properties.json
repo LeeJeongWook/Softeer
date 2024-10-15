@@ -12,16 +12,16 @@
             ],
             "browse": {
                 "path": [
-                    "C:/MinGW/lib/gcc/mingw32/6.3.0/include",
-                    "C:/MinGW/lib/gcc/mingw32/6.3.0/include-fixed",
-                    "C:/MinGW/include/*",
+                    "C:/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include",
+                    "C:/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include-fixed",
+                    "C:/mingw64/include",
                     "${workspaceRoot}"
                 ],
                 "limitSymbolsToIncludedHeaders": true,
                 "databaseFilename": ""
             },
 
-            "compilerPath": "C:/MinGW/bin/gcc.exe"
+            "compilerPath": "C:/mingw64/bin/gcc.exe"
         }
     ],
     "version": 4
