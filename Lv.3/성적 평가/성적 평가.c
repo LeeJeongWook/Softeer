@@ -1,80 +1,76 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MAX 100000
-
-typedef struct{
-    int num;    //참가자 번호
+typedef struct {
     int score;  //점수
-    int rank;   //순위
-}rate;
+    int index;  //인덱스(참가자)
+} Rank;
 
-typedef struct{
-    int num;
-    int rank;
-}final_rate;
-
-int N, rank_tmp;
-rate rate_arr[MAX];
-final_rate final_rate_arr[MAX];
-
-
-
-int Score_Compare(const void *a, const void *b) {
-    return ((rate*)b)->score - ((rate*)a)->score;
+/* Func: 점수를 기준으로 내림차순 정렬 */
+int compare(const void *a, const void *b) {
+    return ((Rank *)b)->score - ((Rank *)a)->score;
 }
 
-int Num_Compare(const void *a, const void *b){
-    return ((rate*)a)->num - ((rate*)b)->num;
+/* Func: 대회별 등수 계산 */
+void calculate_rank(int scores[], int ranks[], int N) {
+    Rank *ranking = (Rank *)malloc(N * sizeof(Rank));
+    
+    for (int i = 0; i < N; i++) {
+        ranking[i].index = i;
+        ranking[i].score = scores[i];
+    }
+
+    /* 점수를 내림차순으로 정렬 */
+    qsort(ranking, N, sizeof(Rank), compare);
+
+    /* 등수 계산 */
+    for (int i = 0; i < N; i++) {
+        if (i > 0 && ranking[i].score == ranking[i - 1].score)
+            ranks[ranking[i].index] = ranks[ranking[i - 1].index];  /* 동점인 경우 같은 등수 */
+        else
+            ranks[ranking[i].index] = i + 1;    /* (나보다 점수가 높은 사람 + 1) 등 */
+    }
+
+    free(ranking);
 }
 
-int Rate_Compare(const void *a, const void *b){
-    return ((final_rate *)a)->rank - ((final_rate *)b)->rank;
-}
-
-int main(){
-    /* Input: 참가자의 수 N */
-    rank_tmp = 0;
+int main() {
+    /* Input: 참가자의 수 */
+    int N;
     scanf("%d", &N);
 
-    for(int i = 0; i < 3; i++){
-        for(int j = 0; j < N; j++){
-            rate_arr[j].num = j;
-            /* Input: 참가자 N명의 점수 */
-            scanf("%d", &rate_arr[j].score);
+    int scores[3][N];
+    int ranks[3][N];
+    int total_scores[N];
+    int total_ranks[N];
+
+    /* Input: 각 대회의 점수 */
+    for (int i = 0; i < 3; i++)
+        for (int j = 0; j < N; j++)
+            scanf("%d", &scores[i][j]);
+
+    /* 1. 대회별 등수 계산 */
+    for (int i = 0; i < 3; i++)
+        calculate_rank(scores[i], ranks[i], N);
+
+    /* 2. 참가자별로 세 대회의 점수를 합산 */
+    for (int i = 0; i < N; i++)
+        total_scores[i] = scores[0][i] + scores[1][i] + scores[2][i];
+
+    /* 3. 최종 등수 계산 */
+    calculate_rank(total_scores, total_ranks, N);
+
+    /* Output: 각 대회별 등수 */
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < N; j++) {
+            printf("%d ", ranks[i][j]);
         }
-
-        /* 오름차순으로 정렬 */
-        qsort(rate_arr, N, sizeof(rate), Score_Compare);
-        
-        for(int k = 1; k <= N; k++){
-            /* 점수가 같으면 동일한 순위 */
-            if(rate_arr[k].score == rate_arr[k+1].score){
-                rate_arr[k].rank = k - rank_tmp;
-                rank_tmp++;
-            }
-            else{
-                rank_tmp = 0;
-                rate_arr[k].rank = k;
-            }
-        }
-
-        qsort(rate_arr, N, sizeof(rate), Num_Compare);
-
-        
-        for(int l = 0; l < N; l++){
-            printf("%d ", rate_arr[l].rank);
-            final_rate_arr[l].num = l + 1;
-            final_rate_arr[l].rank += rate_arr[l].rank;
-        }
-
         printf("\n");
     }
-    
-    qsort(final_rate_arr, N, sizeof(final_rate), Rate_Compare);
 
-    for(int i = 0; i < N; i++)
-        printf("%d ", final_rate_arr[i].num);
+    /* Output: 최종 등수 */
+    for (int i = 0; i < N; i++)
+        printf("%d ", total_ranks[i]);
 
     return 0;
 }
