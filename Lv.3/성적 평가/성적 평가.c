@@ -2,8 +2,8 @@
 #include <stdlib.h>
 
 typedef struct {
-    int score;  //점수
-    int index;  //인덱스(참가자)
+    int score;  /* 점수 */
+    int index;  /* 인덱스(참가자) */
 } Rank;
 
 /* Func: 점수를 기준으로 내림차순 정렬 */
@@ -20,15 +20,15 @@ void calculate_rank(int scores[], int ranks[], int N) {
         ranking[i].score = scores[i];
     }
 
-    /* 점수를 내림차순으로 정렬 */
+    /* 1.점수를 내림차순으로 정렬 */
     qsort(ranking, N, sizeof(Rank), compare);
 
-    /* 등수 계산 */
+    /* 2.등수 계산 */
     for (int i = 0; i < N; i++) {
         if (i > 0 && ranking[i].score == ranking[i - 1].score)
-            ranks[ranking[i].index] = ranks[ranking[i - 1].index];  /* 동점인 경우 같은 등수 */
+            ranks[ranking[i].index] = ranks[ranking[i - 1].index];  /* 2.1.동점인 경우 같은 등수 */
         else
-            ranks[ranking[i].index] = i + 1;    /* (나보다 점수가 높은 사람 + 1) 등 */
+            ranks[ranking[i].index] = i + 1;    /* 2.2.(나보다 점수가 높은 사람 + 1) 등 */
     }
 
     free(ranking);
@@ -49,15 +49,15 @@ int main() {
         for (int j = 0; j < N; j++)
             scanf("%d", &scores[i][j]);
 
-    /* 1. 대회별 등수 계산 */
+    /* 1.대회별 등수 계산 */
     for (int i = 0; i < 3; i++)
         calculate_rank(scores[i], ranks[i], N);
 
-    /* 2. 참가자별로 세 대회의 점수를 합산 */
+    /* 2.참가자별로 세 대회의 점수를 합산 */
     for (int i = 0; i < N; i++)
         total_scores[i] = scores[0][i] + scores[1][i] + scores[2][i];
 
-    /* 3. 최종 등수 계산 */
+    /* 3.최종 등수 계산 */
     calculate_rank(total_scores, total_ranks, N);
 
     /* Output: 각 대회별 등수 */
