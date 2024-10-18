@@ -28,7 +28,7 @@ void calculate_rank(int scores[], int ranks[], int N) {
         if (i > 0 && ranking[i].score == ranking[i - 1].score)
             ranks[ranking[i].index] = ranks[ranking[i - 1].index];  /* 2.1.동점인 경우 같은 등수 */
         else
-            ranks[ranking[i].index] = i + 1;    /* 2.2.(나보다 점수가 높은 사람 + 1) 등 */
+            ranks[ranking[i].index] = i + 1;    /* 2.2.(나보다 점수가 높은 사람 + 1)등 */
     }
 
     free(ranking);
@@ -53,7 +53,7 @@ int main() {
     for (int i = 0; i < 3; i++)
         calculate_rank(scores[i], ranks[i], N);
 
-    /* 2.참가자별로 세 대회의 점수를 합산 */
+    /* 2.참가자별 세 대회의 점수를 합산 */
     for (int i = 0; i < N; i++)
         total_scores[i] = scores[0][i] + scores[1][i] + scores[2][i];
 
