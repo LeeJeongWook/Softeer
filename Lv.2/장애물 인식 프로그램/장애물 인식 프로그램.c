@@ -1,61 +1,70 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
 
-#define SIZE_MAX 25
+#define MAX 25
 
-int N;
-int map[SIZE_MAX][SIZE_MAX];
-int visited[SIZE_MAX][SIZE_MAX];
-int block_size[SIZE_MAX * SIZE_MAX];
-int block_cnt = 0;
-int dx[] = {-1, 1, 0, 0};
-int dy[] = {0, 0, -1, 1};
+int N, area_count, count, idx = 0;
+int count_arr[MAX*MAX];
+int field[MAX][MAX];
+int checked[MAX][MAX];
 
-void DFS(int x, int y, int block_num){
-    visited[x][y] = 1;
-    block_size[block_num]++;
+int dx[4] = {-1, 1, 0, 0};
+int dy[4] = {0, 0, -1, 1};
 
+int compare(const void* a, const void* b){
+    return *(int*)a - *(int*)b;
+}
+
+/* Func: 재귀 호출을 통한 DFS */
+void DFS(int x, int y){
+    count++;
+    checked[x][y] = 1;
     for(int i = 0; i < 4; i++){
         int nx = x + dx[i];
         int ny = y + dy[i];
-
-        if(nx >= 0 && nx < N && ny >= 0 && ny < N){
-            if(map[nx][ny] == 1 && visited[nx][ny] == 0){
-                DFS(nx, ny, block_num);
+        if((0 <= nx) && (nx < N) && (0 <= ny) && (ny < N)){
+            if((field[nx][ny] == 1) && (checked[nx][ny] == 0)){
+                DFS(nx, ny);
             }
         }
     }
+    return;
 }
 
-int Compare(const void *a, const void *b) {
-    return (*(int*)a - *(int*)b);
-}
-
-int main(){
+int main(void){
+    /* Input: 지도의 크기(N), 각 N개의 자료(0 or 1) */
     scanf("%d", &N);
-
-    for(int i = 0; i < N; i++){
-        for(int j = 0; j < N; j++){
-            scanf("%1d", &map[i][j]);
-        }
-    }
     
     for(int i = 0; i < N; i++){
         for(int j = 0; j < N; j++){
-            if(map[i][j] == 1 && visited[i][j] == 0){
-                DFS(i, j, block_cnt);
-                block_cnt++;
+            scanf("%1d", &field[i][j]);
+        }
+    }
+    
+    /* 1. field 탐색 */
+    area_count = 0;
+    for(int i = 0; i < N; i++){
+        for(int j = 0; j < N; j++){
+            count = 0;
+            /* 1.1. 방문하지 않은 영역의 장애물 발견시 count증가 및 주변 탐색 */
+            if((field[i][j] == 1) && (checked[i][j] == 0)){
+                area_count++;
+                /* 1.2. 재귀 호출을 통한 DFS */
+                DFS(i, j);
             }
+            /* 1.3. 영역의 장애물 크기 입력 */
+            if(count) count_arr[idx++] = count;
         }
     }
 
-    qsort(block_size, block_cnt, sizeof(int), Compare);
-
-    printf("%d\n", block_cnt);
-    for(int i = 0; i < block_cnt; i++){
-        printf("%d\n", block_size[i]);
+    /* 2. 장애물 크기 배열 오름차순으로 정렬 */
+    printf("%d\n", area_count);
+    qsort(count_arr, area_count, sizeof(int), compare);
+    
+    /* Output: 총 블록수, 각 블록 내 장애물의 수 */
+    for(int i = 0; i < area_count; i++){
+        printf("%d\n", count_arr[i]);
     }
-
+    
     return 0;
 }
